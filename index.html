@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#145c38">
+  <title>ピッチノート</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23145c38'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='white' stroke-width='1.6'/%3E%3Cpath d='M16 5v22M5 16h22' stroke='white' stroke-width='1.4'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <a class="brand" href="#/players">
+        <span class="mark" aria-hidden="true"></span>
+        <span>
+          <span class="brand-kicker">サッカーコーチの選手メモ</span>
+          <span class="brand-name">ピッチノート</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="メイン">
+        <a href="#/players" data-nav="players">選手</a>
+        <a href="#/sessions" data-nav="sessions">記録</a>
+        <a class="nav-write" href="#/sessions/new" data-nav="form">記録を書く</a>
+      </nav>
+      <details class="data-menu">
+        <summary>データ</summary>
+        <div class="data-menu-body">
+          <button type="button" id="export-btn" class="btn ghost">JSONを書き出す</button>
+          <button type="button" id="import-btn" class="btn ghost">JSONを読み込む</button>
+          <p>記録はこのブラウザに保存されます。別のパソコンへ移すときは書き出してください。</p>
+        </div>
+      </details>
+    </header>
+    <main id="main"></main>
+  </div>
+
+  <nav class="tabbar" aria-label="モバイル">
+    <a href="#/players" data-nav="players">選手</a>
+    <a href="#/sessions/new" data-nav="form">書く</a>
+    <a href="#/sessions" data-nav="sessions">記録</a>
+  </nav>
+
+  <dialog id="player-dialog" aria-labelledby="player-dialog-title">
+    <form id="player-form" autocomplete="off">
+      <h2 id="player-dialog-title">選手を追加</h2>
+      <label class="field">名前
+        <input name="name" required maxlength="40" placeholder="山田">
+      </label>
+      <div class="two">
+        <label class="field">背番号
+          <input name="number" inputmode="numeric" maxlength="2" placeholder="10">
+        </label>
+        <label class="field">ポジション
+          <select name="position">
+            <option value="">未設定</option>
+            <option value="GK">GK</option>
+            <option value="DF">DF</option>
+            <option value="MF">MF</option>
+            <option value="FW">FW</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">特徴（任意）
+        <input name="trait" maxlength="80" placeholder="例: 右利き、裏への飛び出しが武器">
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="player-cancel" class="btn ghost">キャンセル</button>
+        <button type="submit" class="btn primary">保存する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <form method="dialog">
+      <h2 id="confirm-title">確認</h2>
+      <p id="confirm-message"></p>
+      <div class="dialog-actions">
+        <button type="submit" class="btn ghost" value="cancel">キャンセル</button>
+        <button type="submit" id="confirm-ok" class="btn danger fill" value="ok">削除する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input id="import-file" type="file" accept="application/json,.json" hidden>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">このアプリにはJavaScriptが必要です。</p></noscript>
+  <script src="app.js"></script>
+</body>
+</html>
